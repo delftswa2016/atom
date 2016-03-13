@@ -121,7 +121,7 @@ module.exports = ({commandRegistry, commandInstaller, config}) ->
     'editor:move-to-next-subword-boundary': -> @moveToNextSubwordBoundary()
     'editor:select-to-beginning-of-next-paragraph': -> @selectToBeginningOfNextParagraph()
     'editor:select-to-beginning-of-previous-paragraph': -> @selectToBeginningOfPreviousParagraph()
-    'editor:select-to-end-of-line': -> @selectToEndOfLine()
+    'editor:select-to-end-of-buffer-line': -> @selectToEndOfBufferLine()
     'editor:select-to-end-of-screen-line': -> @selectToEndOfScreenLine()
     'editor:select-to-beginning-of-line': -> @selectToBeginningOfLine()
     'editor:select-to-end-of-word': -> @selectToEndOfWord()

@@ -2242,8 +2242,8 @@ class TextEditor extends Model
   # preserving the selection's tail position.
   #
   # This method may merge selections that end up intersecting.
-  selectToEndOfLine: ->
-    @expandSelectionsForward (selection) -> selection.selectToEndOfLine()
+  selectToEndOfBufferLine: ->
+    @expandSelectionsForward (selection) -> selection.selectToEndOfBufferLine()
 
   # Essential: Expand selections to the beginning of their containing word.
   #
