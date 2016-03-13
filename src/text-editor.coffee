@@ -1240,8 +1240,8 @@ class TextEditor extends Model
   # selection; otherwise, deletes all characters of the containing line
   # following the cursor. If the cursor is already at the end of the line,
   # deletes the following newline.
-  deleteToEndOfLine: ->
-    @mutateSelectedText (selection) -> selection.deleteToEndOfLine()
+  deleteToEndOfScreenLine: ->
+    @mutateSelectedText (selection) -> selection.deleteToEndOfScreenLine()
 
   # Extended: For each selection, if the selection is empty, delete all characters
   # of the containing word following the cursor. Otherwise delete the selected
@@ -2231,6 +2231,13 @@ class TextEditor extends Model
   selectToFirstCharacterOfLine: ->
     @expandSelectionsBackward (selection) -> selection.selectToFirstCharacterOfLine()
 
+  # Essential: Move the cursor of each selection to the end of its screen line
+  # while preserving the selection's tail position.
+  #
+  # This method may merge selections that end up intersecting.
+  selectToEndOfScreenLine: ->
+    @expandSelectionsForward (selection) -> selection.selectToEndOfScreenLine()
+
   # Essential: Move the cursor of each selection to the end of its line while
   # preserving the selection's tail position.
   #
@@ -2877,10 +2884,10 @@ class TextEditor extends Model
   # Essential: For each selection, if the selection is empty, cut all characters
   # of the containing screen line following the cursor. Otherwise cut the selected
   # text.
-  cutToEndOfLine: ->
+  cutToEndOfScreenLine: ->
     maintainClipboard = false
     @mutateSelectedText (selection) ->
-      selection.cutToEndOfLine(maintainClipboard)
+      selection.cutToEndOfScreenLine(maintainClipboard)
       maintainClipboard = true
 
   # Essential: For each selection, if the selection is empty, cut all characters
