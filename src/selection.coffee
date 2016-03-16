@@ -257,7 +257,7 @@ class Selection extends Model
 
   # Public: Selects all the text from the current cursor position to the end of
   # the screen line.
-  selectToEndOfLine: ->
+  selectToEndOfScreenLine: ->
     @modifySelection => @cursor.moveToEndOfScreenLine()
 
   # Public: Selects all the text from the current cursor position to the end of
@@ -453,12 +453,12 @@ class Selection extends Model
     @deleteSelectedText()
 
   # Public: If the selection is empty, removes all text from the cursor to the
-  # end of the line. If the cursor is already at the end of the line, it
+  # end of the screen line. If the cursor is already at the end of the line, it
   # removes the following newline. If the selection isn't empty, only deletes
   # the contents of the selection.
-  deleteToEndOfLine: ->
+  deleteToEndOfScreenLine: ->
     return @delete() if @isEmpty() and @cursor.isAtEndOfLine()
-    @selectToEndOfLine() if @isEmpty()
+    @selectToEndOfScreenLine() if @isEmpty()
     @deleteSelectedText()
 
   # Public: Removes the selection or all characters from the start of the
@@ -577,8 +577,8 @@ class Selection extends Model
     @editor.toggleLineCommentsForBufferRows(@getBufferRowRange()...)
 
   # Public: Cuts the selection until the end of the screen line.
-  cutToEndOfLine: (maintainClipboard) ->
-    @selectToEndOfLine() if @isEmpty()
+  cutToEndOfScreenLine: (maintainClipboard) ->
+    @selectToEndOfScreenLine() if @isEmpty()
     @cut(maintainClipboard)
 
   # Public: Cuts the selection until the end of the buffer line.

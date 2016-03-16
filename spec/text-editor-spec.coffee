@@ -1430,12 +1430,12 @@ describe "TextEditor", ->
         expect(selection2.getBufferRange()).toEqual [[11, 0], [11, 3]]
         expect(selection2.isReversed()).toBeTruthy()
 
-    describe ".selectToEndOfLine()", ->
-      it "selects text from cusor position to end of line", ->
+    describe ".selectToEndOfScreenLine()", ->
+      it "selects text from cusor position to end of screen line", ->
         editor.setCursorScreenPosition [12, 0]
         editor.addCursorAtScreenPosition [11, 3]
 
-        editor.selectToEndOfLine()
+        editor.selectToEndOfScreenLine()
 
         expect(editor.getCursors().length).toBe 2
         [cursor1, cursor2] = editor.getCursors()
@@ -3444,14 +3444,14 @@ describe "TextEditor", ->
           expect(buffer.lineForRow(1)).toBe '  var sort = function(it) {'
           expect(buffer.lineForRow(2)).toBe 'if (items.length <= 1) return items;'
 
-    describe '.deleteToEndOfLine()', ->
+    describe '.deleteToEndOfScreenLine()', ->
       describe 'when no text is selected', ->
         it 'deletes all text between the cursor and the end of the line', ->
           editor.setCursorBufferPosition([1, 24])
           editor.addCursorAtBufferPosition([2, 5])
           [cursor1, cursor2] = editor.getCursors()
 
-          editor.deleteToEndOfLine()
+          editor.deleteToEndOfScreenLine()
           expect(buffer.lineForRow(1)).toBe '  var sort = function(it'
           expect(buffer.lineForRow(2)).toBe '    i'
           expect(cursor1.getBufferPosition()).toEqual [1, 24]
@@ -3460,13 +3460,13 @@ describe "TextEditor", ->
         describe 'when at the end of the line', ->
           it 'deletes the next newline', ->
             editor.setCursorBufferPosition([1, 30])
-            editor.deleteToEndOfLine()
+            editor.deleteToEndOfScreenLine()
             expect(buffer.lineForRow(1)).toBe '  var sort = function(items) {    if (items.length <= 1) return items;'
 
       describe 'when text is selected', ->
         it 'deletes only the text in the selection', ->
           editor.setSelectedBufferRanges([[[1, 24], [1, 27]], [[2, 0], [2, 4]]])
-          editor.deleteToEndOfLine()
+          editor.deleteToEndOfScreenLine()
           expect(buffer.lineForRow(1)).toBe '  var sort = function(it) {'
           expect(buffer.lineForRow(2)).toBe 'if (items.length <= 1) return items;'
 
@@ -3802,14 +3802,14 @@ describe "TextEditor", ->
               items
             """
 
-      describe ".cutToEndOfLine()", ->
+      describe ".cutToEndOfScreenLine()", ->
         describe "when soft wrap is on", ->
           it "cuts up to the end of the line", ->
             editor.setSoftWrapped(true)
             editor.setDefaultCharWidth(1)
             editor.setEditorWidthInChars(10)
             editor.setCursorScreenPosition([2, 2])
-            editor.cutToEndOfLine()
+            editor.cutToEndOfScreenLine()
             expect(editor.tokenizedLineForScreenRow(2).text).toBe '=  () {'
 
         describe "when soft wrap is off", ->
@@ -3817,7 +3817,7 @@ describe "TextEditor", ->
             it "cuts up to the end of the line", ->
               editor.setCursorBufferPosition([2, 20])
               editor.addCursorAtBufferPosition([3, 20])
-              editor.cutToEndOfLine()
+              editor.cutToEndOfScreenLine()
               expect(buffer.lineForRow(2)).toBe '    if (items.length'
               expect(buffer.lineForRow(3)).toBe '    var pivot = item'
               expect(atom.clipboard.read()).toBe ' <= 1) return items;\ns.shift(), current, left = [], right = [];'
@@ -3826,7 +3826,7 @@ describe "TextEditor", ->
             it "only cuts the selected text, not to the end of the line", ->
               editor.setSelectedBufferRanges([[[2, 20], [2, 30]], [[3, 20], [3, 20]]])
 
-              editor.cutToEndOfLine()
+              editor.cutToEndOfScreenLine()
 
               expect(buffer.lineForRow(2)).toBe '    if (items.lengthurn items;'
               expect(buffer.lineForRow(3)).toBe '    var pivot = item'
